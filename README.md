@@ -1,63 +1,129 @@
-HEAD
-# ai-service-advisor
+# AI Service Advisor Bot
 
-# AI Service Advisor 🤖🔧
+## Overview
 
-This AI Service Advisor is a custom-built expert assistant designed to streamline customer interactions, forecast service spending, and provide high-level technical guidance — all in real time.
-
-Originally developed using a GPT builder and fine-tuned through real-world use cases, the bot is intelligent enough to hold detailed conversations with customers **like a seasoned Service Advisor** and **technically trained Master Technician**.
+This project is an intelligent service advisor system designed for automotive dealerships and repair shops. It automates key stages of the service write-up, diagnostic, and customer communication process using GPT agents, real-world dealership workflows, and predictive insights.
 
 ---
 
-## 🧠 Key Capabilities
+## Project Goals
 
-- **Predictive Spending Forecasts**: 
-  Uses regression logic to estimate upcoming service costs based on mileage, brand, seasonality, and repair history.
-
-- **Diagnostic Support**: 
-  Can explain common failure patterns, maintenance intervals, and even quote pricing logic using conversational inputs.
-
-- **Customer Simulation**:
-  Handles incoming customer messages with natural dialogue — great for triage, booking prompts, and pre-RO filtering.
-
-- **Data Awareness**:
-  Compares symptoms, links technical bulletins, and flags upsell opportunities based on wear patterns and age.
+* Reduce advisor workload
+* Improve customer communication and transparency
+* Increase shop efficiency and upsell conversion
+* Leverage real-time data to personalize service
 
 ---
 
-## 💼 Built by a Master Tech, Optimized by an Operator
+## Core Features
 
-This AI agent isn’t just smart — it’s practical. It was shaped by over 25 years of industry experience in high-volume BMW and Porsche service lanes, where speed, clarity, and profitability are everything.
+### 1. Customer Intake
 
-The logic behind this tool reflects deep frontline service knowledge, including:
+* VIN decoding
+* Appointment verification
+* Primary concern categorization (maintenance, repair, recall, multi-issue)
 
-- Warranty optimization
-- Advisor scripting
-- Technical pattern recognition
-- Upsell conversion flow
-- Parts & labor quoting psychology
+### 2. Maintenance Advisor
+
+* Pulls maintenance schedule by mileage
+* Suggests services based on prior RO history
+* Predicts likely needs based on model behavior
+
+### 3. Recall & Bulletin Integration
+
+* Checks for open recalls
+* Pulls most current SIBs or TSBs for reported issues
+* Automatically attaches relevant documents to RO
+
+### 4. Parts Coordination
+
+* Verifies stock levels
+* Estimates pricing and delivery ETA
+* Pre-pulls parts for approved work
+
+### 5. Tech Dispatch
+
+* ROs routed to appropriate tech based on issue
+* Tech receives notes + linked SIBs/recalls
+
+### 6. Live Customer Updates
+
+* Notifies customer on major steps (check-in, diag complete, approval needed, ready)
+* Option to automate 2nd-phase approvals based on thresholds
+
+### 7. Transportation Logic
+
+* Waiter/loaner logic triggered by RO time estimation
+* Complimentary loaner if >3hr approved services
+
+### 8. Final Delivery & Retention
+
+* Completion message
+* Surveys & feedback capture
+* RO data returned to customer profile for next visit
 
 ---
 
-## ⚙️ Tech Stack
+## Data Stack
 
-- Built on a GPT-4 Turbo framework
-- Prompt-engineered for automotive fixed ops
-- Built using OpenAI’s custom GPT builder
-- Version controlled locally and published via GitHub
-
----
-
-## 📌 Future Expansion Ideas
-
-While the bot already performs strongly, potential future upgrades include:
-
-- **RO export integration**
-- **VIN decoding & recall logic**
-- **Parts department API bridge**
-- **Technician dispatch logic**
+* **SQL:** Used to analyze past RO history, tier customers, and generate upsell flags
+* **Flask API:** Powers webhooks and triggers for communication
+* **GPT (ChatGPT/GPT-4):** Handles natural language intake, issue decoding, and customer interaction
+* **Vector Memory (planned):** To retain service history context over time
 
 ---
 
-> This project is part of a growing AI operations portfolio focused on real-world business use cases — especially those underserved by legacy software or outdated processes.
- (Initial commit: AI Service Advisor overview)
+## AI Agent Stack
+
+This project uses modular GPT agents for specific roles:
+
+* Intake Agent
+* Maintenance Advisor
+* Recall & SIB Agent
+* Parts Agent
+* Tech Routing Agent
+* Customer Update Agent
+* Transport/Loaner Agent
+* Post-Service Agent
+
+Each agent runs in isolation but communicates through shared memory and structured output.
+
+---
+
+## Sample SQL Use Cases
+
+```sql
+-- Flag high-value customers
+SELECT customer_id, COUNT(*) as visits, AVG(total) as avg_spend
+FROM repair_orders
+GROUP BY customer_id
+HAVING visits > 3 AND avg_spend > 800;
+
+-- Declined coolant flushes
+SELECT * FROM declined_services
+WHERE service_name ILIKE '%coolant flush%';
+```
+
+---
+
+## Future Roadmap
+
+* Add vector DB memory to track customer personalities/preferences
+* Build drag-and-drop UI for advisors to review GPT suggestions
+* Integrate with live DMS platforms (CDK, Reynolds & Reynolds)
+* Add multilingual support
+
+---
+
+## Why This Matters
+
+This bot isn’t just automation. It’s a rethink of how we deliver trust, speed, and insight to customers walking into a dealership. It combines frontline logic with backend intelligence to make every visit feel tailored, proactive, and frictionless.
+
+---
+
+## Author
+
+**SFAZ615**
+Builder | Operator | GPT Dev
+
+\[GitHub Portfolio Coming Soon]
